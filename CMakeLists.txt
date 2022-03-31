@@ -18,9 +18,6 @@ add_compile_options(-Wall -Wextra -pedantic)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-MESSAGE(STATUS "Include dirs " ${OpenCV_INCLUDE_DIRS})
-MESSAGE(STATUS "LINK LIBRARIES " ${OpenCV_LIBS})
-
 # Define the library
 set(LIB_DIRECTORY ocr)
 set(LIB_NAME OcrLib)
@@ -41,6 +38,14 @@ target_link_libraries(${LIB_NAME} INTERFACE ${LEPTONICA_LIBRARIES})
 # Add OpenCV
 target_include_directories(${LIB_NAME} PRIVATE ${OpenCV_INCLUDE_DIRS})
 target_link_libraries(${LIB_NAME} INTERFACE ${OpenCV_LIBS})
+
+# Add logging
+set(LOG_LIB_DIRECTORY third-party/easyloggingpp)
+set(LOG_LIB_NAME easyloggingpp)
+file(GLOB LOG_LIB_SOURCES ${LOG_LIB_DIRECTORY}/*.cc ${LOG_LIB_DIRECTORY}/*.h)
+add_library(${LOG_LIB_NAME} SHARED ${LOG_LIB_SOURCES})
+target_include_directories(${LIB_NAME} PUBLIC ${LOG_LIB_DIRECTORY})
+target_link_libraries(${LIB_NAME} PUBLIC ${LOG_LIB_NAME})
 
 # Enable testing
 enable_testing()
