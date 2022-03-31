@@ -39,3 +39,7 @@ CMakeSettings.json
 
 # cmake build
 build/
+
+# additional ignored folder
+tests/data/
+doc/
