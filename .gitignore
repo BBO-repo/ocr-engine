@@ -35,6 +35,7 @@
 .vs
 CMakeSettings.json
 .devcontainer/
+.vscode/
 
 # cmake build
 build/
