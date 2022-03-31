@@ -38,7 +38,7 @@ void thresh_callback_contour(int, void *)
 }
 
 // Test can compute orientation
-TEST_CASE("test-can-find-contours", "[opencv]")
+TEST_CASE("test-can-find-contours", "[.][opencv]")
 {
 
     using namespace cv;
@@ -170,6 +170,4 @@ TEST_CASE("test-corners-perspective", "[.][opencv]")
     imshow( "Cropped", imCrop );
 
     waitKey();
-
-
 }
