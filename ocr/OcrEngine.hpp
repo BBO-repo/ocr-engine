@@ -36,6 +36,22 @@ namespace ocr
 	 */
 	void compute_orientation(const std::string & image_path);
 
+	/**
+	 * @brief Get the largest contour rectangle from the image in file
+	 * 
+	 * @param image_path the path to the image
+	 * @return cv::Rect the rectangle containing the largest contour
+	 */
+	cv::Rect get_largest_contour_rect(const std::string & image_path);
+	
+	/**
+	 * @brief Get the largest contour rectangle of an image
+	 * 
+	 * @param image the image input
+	 * @return cv::Rect the rectangle containing the largest contour
+	 */
+	cv::Rect get_largest_contour_rect(const cv::Mat & image);
+
 }
 
 #endif // OCRENGINE_H_
