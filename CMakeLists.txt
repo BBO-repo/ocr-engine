@@ -18,7 +18,9 @@ add_compile_options(-Wall -Wextra -pedantic)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-# Define the library
+######################
+# Define the library #
+######################
 set(LIB_DIRECTORY ocr)
 set(LIB_NAME OcrLib)
 file(GLOB LIB_SOURCES ${LIB_DIRECTORY}/*.cpp ${LIB_DIRECTORY}/*.hpp)
@@ -47,6 +49,26 @@ add_library(${LOG_LIB_NAME} SHARED ${LOG_LIB_SOURCES})
 target_include_directories(${LIB_NAME} PUBLIC ${LOG_LIB_DIRECTORY})
 target_link_libraries(${LIB_NAME} PUBLIC ${LOG_LIB_NAME})
 
+###########################
+# Define the applications #
+###########################
+set(APP_DIRECTORY application)
+set(APP_NAME ocrize)
+file(GLOB APP_SOURCES ${APP_DIRECTORY}/*.cpp)
+add_executable(${APP_NAME} ${APP_SOURCES})
+
+# Add ocr engine library
+target_link_libraries(${APP_NAME} PRIVATE ${LIB_NAME})
+
+
+# Add argparse
+set(ARG_LIB_DIRECTORY third-party/argparse)
+target_include_directories(${APP_NAME} PRIVATE ${ARG_LIB_DIRECTORY})
+
+
+####################
+# Define the tests #
+####################
 # Enable testing
 enable_testing()
 # Define the test application
