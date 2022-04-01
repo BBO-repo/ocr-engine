@@ -50,12 +50,14 @@ target_link_libraries(${LIB_NAME} PUBLIC ${LOG_LIB_NAME})
 # Enable testing
 enable_testing()
 # Define the test application
+set(TEST_LIB_DIRECTORY third-party/catch2)
 set(TEST_SOURCE_DIRECTORY tests)
 set(TEST_EXE ocrUnitTest)
 file(GLOB TEST_SOURCES ${TEST_SOURCE_DIRECTORY}/*.cpp)
 add_executable(${TEST_EXE} ${TEST_SOURCES})
 # Add library link to test application
 target_link_libraries(${TEST_EXE} ${LIB_NAME})
+target_include_directories(${TEST_EXE} PRIVATE ${TEST_LIB_DIRECTORY})
 
 # Add unit tests
 add_test(searchLibUnitTest ${TEST_EXE})
