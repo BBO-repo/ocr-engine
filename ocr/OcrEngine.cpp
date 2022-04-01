@@ -1,5 +1,7 @@
 #include "OcrEngine.hpp"
 
+INITIALIZE_EASYLOGGINGPP
+
 namespace ocr
 {
 	void open_image(const std::string &image_path, cv::Mat &img, bool display)
