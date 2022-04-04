@@ -60,11 +60,13 @@ add_executable(${APP_NAME} ${APP_SOURCES})
 # Add ocr engine library
 target_link_libraries(${APP_NAME} PRIVATE ${LIB_NAME})
 
-
 # Add argparse
 set(ARG_LIB_DIRECTORY third-party/argparse)
 target_include_directories(${APP_NAME} PRIVATE ${ARG_LIB_DIRECTORY})
 
+# Add json
+set(JSON_LIB_DIRECTORY third-party/nlohmann_json)
+target_include_directories(${APP_NAME} PRIVATE ${JSON_LIB_DIRECTORY})
 
 ####################
 # Define the tests #

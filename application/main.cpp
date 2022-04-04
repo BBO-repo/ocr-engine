@@ -1,4 +1,5 @@
 #include <argparse.hpp>
+#include <json.hpp>
 
 #include "OcrEngine.hpp" 
 
@@ -35,6 +36,9 @@ int main(int argc, char *argv[]) {
   std::cout << document_path << std::endl;
 
   ocr::compute_orientation(document_path);
+
+  auto j3 = nlohmann::json::parse(R"({"happy": true, "pi": 3.141})");
+  std::cout << j3.dump(4) << '\n';
 
   return 0;
 }
