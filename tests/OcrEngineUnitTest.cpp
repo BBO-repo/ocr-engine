@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "OcrEngine.hpp"
+#include "OcrLib.hpp"
 #include "Helper.hpp"
 
 // Test can compute orientation
