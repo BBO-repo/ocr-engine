@@ -68,6 +68,9 @@ target_include_directories(${APP_NAME} PRIVATE ${ARG_LIB_DIRECTORY})
 set(JSON_LIB_DIRECTORY third-party/nlohmann_json)
 target_include_directories(${APP_NAME} PRIVATE ${JSON_LIB_DIRECTORY})
 
+# add filesystem support
+target_link_libraries(${APP_NAME} PRIVATE stdc++fs)
+
 ####################
 # Define the tests #
 ####################
