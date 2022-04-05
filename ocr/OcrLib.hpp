@@ -1,5 +1,5 @@
-#ifndef OCRENGINE_H_
-#define OCRENGINE_H_
+#ifndef OCRLIB_H_
+#define OCRLIB_H_
 
 #include <iostream>
 #include <vector>
