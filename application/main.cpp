@@ -50,38 +50,31 @@ int main(int argc, char *argv[])
 	}
 
 	// validate passed arguments
-	// std::string document_type = program.get<std::string>("--type"); // kept for debug purpose
 	ocr::document_type type = ocr::type_map[program.get<std::string>("--type")]; // retrieve document type
-
 	std::string document_path = program.get<std::string>("--path"); // retrieve document path
-	std::cout << document_path << std::endl;
 
 	// do not process if unknown document type
 	if (type == ocr::document_type::unknown)
 	{
-		std::cerr << "Unknown document type! Please provide a document type to process.\n" << std::endl;
-		std::cerr << program;
+		std::cerr << "Unknown document type! Please provide a document type to process.\n" << program << std::endl;
 		std::exit(1);
 	}
-	//
+	// do not process if document not exist
 	if (!std::filesystem::exists(document_path))
 	{
-		std::cerr << "File: " << document_path << "not found\n" << std::endl;
-		std::cerr << program;
+		std::cerr << "File: " << document_path << "not found\n" << program << std::endl;
 		std::exit(1);
 	}
 
-	ocr::compute_orientation(document_path);
+    ocr::OcrEngine<ocr::document_type::card>().ocrize("blabla", "name", 18);
+    ocr::OcrEngine<ocr::document_type::pdf_diana>().ocrize("overridden", 18, 3000, 4.5);
 
 	nlohmann::json processing_result = {
 		{"status", "the status"},
 		{"message", "the message"},
-		{"data", {{"document-type", "insurance card"}, {"ocr-data", 807}}}
-	};
+		{"data", {{"document-type", "insurance card"}, {"ocr-data", 807}}}};
+	
 	std::cout << processing_result.dump(4) << '\n';
-
-	ocr::OcrEngine<ocr::StratA>().ocrize("default", "name", 18, ocr::StratA::female);
-    ocr::OcrEngine<ocr::StratB>().ocrize("overridden", 18, 3000, 4.5);
-
+	
 	return 0;
 }

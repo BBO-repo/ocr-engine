@@ -1,69 +1,39 @@
 #ifndef OCRENGINE_H_
 #define OCRENGINE_H_
 
-#include <map>
-#include <string>
-#include <iostream>
+#include "OcrTypes.hpp"
 
 namespace ocr
 {
-    // possible document type
-    enum class document_type
-    {
-        card,
-        pdf_diana,
-        pdf_uni,
-        unknown
-    };
+    // strategy pattern implemented with C++ template (a non-type parameter version)
+    template <document_type>
+    struct Strategy;
 
-    // map the document type to argument string input
-    std::map<std::string, document_type> type_map{
-        {"card", document_type::card},
-        {"pdf_diana", document_type::pdf_diana},
-        {"pdf_uni", document_type::pdf_uni},
-        {"unknown", document_type::unknown}};
-
-    // error status
-    enum class status
+    template <>
+    struct Strategy<document_type::card>
     {
-        ocr_success,
-        no_error,
-        unknown_doc_type,
-        file_not_found
-    };
-
-    // https://stackoverflow.com/questions/11459294/is-there-a-way-of-implementing-the-strategy-pattern-using-variadic-templates
-    // http://www.lucadavidian.com/2019/05/24/strategy-desing-pattern-and-variadic-class-templates/
-    struct StratA
-    {
-        enum gender
+        double concreteOcrize(std::string, int b) const
         {
-            male,
-            female,
-            unknown
-        };
-        double price(std::string name, int age, gender g) const
-        {
-            return 42;
+            return b;
         }
     };
 
-    struct StratB
+    template <>
+    struct Strategy<document_type::pdf_diana>
     {
-        double price(int age, int volume, double historic_rate) const
+        double concreteOcrize(int a, int b, double c) const
         {
-            return (age * age * historic_rate) / volume;
+            return (a * b * b) / c;
         }
     };
 
-    // strategy pattern implemented with C++ template
-    template <typename OcrStrategy>
+    template <document_type DT>
     struct OcrEngine
     {
         template <typename... Args>
-        void ocrize(std::string logmessage, Args... args) // involving pricing
+        void ocrize(std::string message, Args... args)
         {
-            std::cout << logmessage << ": " << OcrStrategy().price(std::forward<Args>(args)...) << '\n';
+            Strategy<DT>().concreteOcrize(std::forward<Args>(args)...);
         }
     };
 
