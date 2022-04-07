@@ -2,11 +2,8 @@
 #define OCRLIB_H_
 
 #include <iostream>
-#include <vector>
-#include <thread>
-#include <future>
-#include <mutex>
-#include <list>
+#include <string>
+#include <regex>
 
 #include <leptonica/allheaders.h>
 
@@ -19,6 +16,8 @@
 #include <opencv2/imgproc.hpp>
 
 #include <easylogging++.h>
+
+#include "OcrTypes.hpp"
 
 namespace ocr
 {
@@ -35,8 +34,10 @@ namespace ocr
 	 * @brief compute text orientation of an image using tesseract
 	 * 
 	 * @param image_path the path to the image
+	 * @param text_orientation the estimated orientation
+	 * @param deskew_angle the estimated deskew_angle
 	 */
-	void compute_orientation(const std::string & image_path);
+	void compute_text_orientation(const std::string &image_path, tesseract::Orientation & text_orientation, float & deskew_angle);
 
 	/**
 	 * @brief Get the largest contour rectangle from the image in file
@@ -53,6 +54,15 @@ namespace ocr
 	 * @return cv::Rect the rectangle containing the largest contour
 	 */
 	cv::Rect get_largest_contour_rect(const cv::Mat & image);
+
+	/**
+	 * @brief Retrieve the patient insurance number form a insurance card picture  
+	 * 
+	 * @param document_path the path to image  
+	 * @param status processing status
+	 * @param message result of ocr processing
+	 */
+	void ocr_insurance_card(const std::string & document_path, ocr::status & status, std::string & ocr_data);
 
 }
 
