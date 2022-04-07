@@ -6,8 +6,8 @@ find_package(PkgConfig REQUIRED)
 pkg_search_module(TESSERACT REQUIRED tesseract)
 pkg_search_module(LEPTONICA REQUIRED lept)
 
-# Make sure C++17
-set(CMAKE_CXX_STANDARD 17)
+# Make sure C++20
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
