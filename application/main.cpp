@@ -50,13 +50,14 @@ int main(int argc, char *argv[])
 	}
 
 	// validate passed arguments
-	ocr::document_type type = ocr::type_map[program.get<std::string>("--type")]; // retrieve document type
+	ocr::document_type doc_type = ocr::type_map.at(program.get<std::string>("--type")); // retrieve document type
 	std::string document_path = program.get<std::string>("--path"); // retrieve document path
 
 	// do not process if unknown document type
-	if (type == ocr::document_type::unknown)
+	if (doc_type != ocr::document_type::card)
 	{
-		std::cerr << "Unknown document type! Please provide a document type to process.\n" << program << std::endl;
+		//std::cerr << "Unknown document type! Please provide a document type to process.\n" << program << std::endl;
+		std::cerr << "For the moment only insurance card document type is supported for ocr.\n" << program << std::endl;
 		std::exit(1);
 	}
 	// do not process if document not exist
@@ -66,13 +67,20 @@ int main(int argc, char *argv[])
 		std::exit(1);
 	}
 
-    ocr::OcrEngine<ocr::document_type::card>().ocrize("blabla", "name", 18);
-    ocr::OcrEngine<ocr::document_type::pdf_diana>().ocrize("overridden", 18, 3000, 4.5);
+	// use strategy pattern to perform the right ocr according to document type
+	ocr::status status{};
+	std::string ocr_data{};
+	// ocr strategy pattern
+	ocr::OcrEngine ocrE{};
+	// ocr concrete implementation
+	ocr::InsuranceCardOcrizer icOcr{};
+    ocrE.set_ocrizer(&icOcr);
+    ocrE.ocrize(document_path, status, ocr_data);
 
+	// print the result in the std cout
 	nlohmann::json processing_result = {
-		{"status", "the status"},
-		{"message", "the message"},
-		{"data", {{"document-type", "insurance card"}, {"ocr-data", 807}}}};
+		{"status", ocr::status_map.at(status)},
+		{"data", {{"document-type", "insurance card"}, {"ocr-data", ocr_data}}}};
 	
 	std::cout << processing_result.dump(4) << '\n';
 	

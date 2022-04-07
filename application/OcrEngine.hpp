@@ -5,35 +5,38 @@
 
 namespace ocr
 {
-    // strategy pattern implemented with C++ template (a non-type parameter version)
-    template <document_type>
-    struct Strategy;
-
-    template <>
-    struct Strategy<document_type::card>
+    class Ocrizer
     {
-        double concreteOcrize(std::string, int b) const
+    public:
+        virtual void ocrize(const std::string &document_path, ocr::status &status, std::string &ocr_data) = 0;
+    };
+
+    // Implementation for insurance card ocr 
+    class InsuranceCardOcrizer : public Ocrizer
+    {
+    public:
+        virtual void ocrize(const std::string &document_path, ocr::status &status, std::string &ocr_data)
         {
-            return b;
+            ocr_insurance_card(document_path, status, ocr_data);
         }
     };
 
-    template <>
-    struct Strategy<document_type::pdf_diana>
+    // Context
+    class OcrEngine
     {
-        double concreteOcrize(int a, int b, double c) const
-        {
-            return (a * b * b) / c;
-        }
-    };
+    private:
+        Ocrizer *m_ocrizer;
 
-    template <document_type DT>
-    struct OcrEngine
-    {
-        template <typename... Args>
-        void ocrize(std::string message, Args... args)
+    public:
+        OcrEngine() {}
+        void set_ocrizer(Ocrizer *ocrizer)
         {
-            Strategy<DT>().concreteOcrize(std::forward<Args>(args)...);
+            m_ocrizer = ocrizer;
+        }
+ 
+        void ocrize(const std::string &document_path, ocr::status &status, std::string &message) 
+        {
+            m_ocrizer->ocrize(document_path, status, message);
         }
     };
 
