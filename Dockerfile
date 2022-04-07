@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye
 WORKDIR /home/usr
 
 # update distribution
@@ -14,19 +14,17 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v3.23.0/cmake-3.23.0
     ./bootstrap && make -j12 && make install
 
 # install dependencies for tesseract
-RUN apt install -y gdb vim git libgtk2.0-dev pkg-config \
+RUN apt install -y gdb git libgtk2.0-dev pkg-config \
     libavcodec-dev libavformat-dev libswscale-dev && \
-    apt-get install -y python-dev python-numpy libtbb2 \
-    libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev \
+    apt-get install -y python3-dev python3-numpy libtbb2 \
+    libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
     && apt clean && rm -rf /var/lib/apt-lists/*
 
-RUN apt install -y automake ca-certificates g++-8 \
+RUN apt install -y automake ca-certificates \
     libtool libleptonica-dev make pkg-config && \
     apt-get install -y --no-install-recommends asciidoc \
-    docbook-xsl xsltproc && apt install -y libpango1.0-dev \
+    docbook-xsl xsltproc && apt install -y \
     && apt install -y libicu-dev libpango1.0-dev libcairo2-dev
-
-RUN apt install  -y libcanberra-gtk-module libcanberra-gtk3-module
 
 # build opencv from source
 RUN git clone https://github.com/opencv/opencv.git
@@ -62,3 +60,6 @@ RUN curl -o /usr/local/share/tessdata/fra.traineddata \
 
 RUN curl -o /usr/local/share/tessdata/osd.traineddata \
     https://raw.githubusercontent.com/tesseract-ocr/tessdata_best/master/osd.traineddata
+
+# remove no more used download 
+RUN rm -rf cmake-3.23* opencv opencv_contrib tesseract 
