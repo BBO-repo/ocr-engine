@@ -71,6 +71,15 @@ target_include_directories(${APP_NAME} PRIVATE ${JSON_LIB_DIRECTORY})
 # add filesystem support
 target_link_libraries(${APP_NAME} PRIVATE stdc++fs)
 
+# east text detection algo for testing
+set(APP_DIRECTORY_EAST east)
+set(APP_NAME_EAST east)
+file(GLOB APP_SOURCES_EAST ${APP_DIRECTORY_EAST}/*.cpp)
+add_executable(${APP_NAME_EAST} ${APP_SOURCES_EAST})
+
+# Add ocr engine library
+target_link_libraries(${APP_NAME_EAST} PRIVATE ${LIB_NAME})
+
 ####################
 # Define the tests #
 ####################
